@@ -30,7 +30,7 @@ Only tested against the **Sony WH-1000XM5** so far. The underlying protocol is t
 
 ```bash
 git clone https://github.com/kdani3/SonyTrackerLinux
-cd sony-tracker
+cd SonyTrackerLinux
 make
 ```
 
