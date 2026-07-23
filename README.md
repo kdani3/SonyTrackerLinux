@@ -50,6 +50,17 @@ sudo usermod -aG plugdev $USER
 # log out and back in for this to take effect
 ```
 
+If you use an Arch based disto, i have commited the release to the [AUR](https://aur.archlinux.org/packages/sony-tracker)
+```bash
+yay -S sony-tracker
+```
+or 
+```bash
+paru -S sony-tracker
+```
+or use whichever AUR helper you are accustomed to, \
+but you get the picture
+
 ## Pairing your headphones
 
 Standard Bluetooth pairing, nothing special:
