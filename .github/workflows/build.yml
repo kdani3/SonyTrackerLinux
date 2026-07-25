@@ -9,18 +9,32 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact: qlidaras
+            asset_name: qlidaras-linux
+          - os: windows-latest
+            artifact: qlidaras.exe
+            asset_name: qlidaras-windows.exe
+          - os: macos-latest
+            artifact: qlidaras
+            asset_name: qlidaras-macos
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-
+      - uses: dtolnay/rust-toolchain@stable
       - name: Build
-        run: make
-
+        run: cargo build --release
+      - name: Rename artifact
+        shell: bash
+        run: cp target/release/${{ matrix.artifact }} ${{ matrix.asset_name }}
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sony-tracker
-          path: sony-tracker
+          name: ${{ matrix.asset_name }}
+          path: ${{ matrix.asset_name }}
 
   release:
     needs: build
@@ -31,9 +45,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: sony-tracker
-
+          path: artifacts
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: sony-tracker
+          files: artifacts/**/*
