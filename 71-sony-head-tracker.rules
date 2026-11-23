@@ -1,1 +1,7 @@
-KERNEL=="hidraw*", ATTRS{idVendor}=="054c", MODE="0660", GROUP="plugdev"
+# Bluetooth: Sony headsets appear as hidraw on HID bus 0005 with vendor 054C.
+# ATTRS{idVendor} can't match these, because the only USB device in a
+# Bluetooth hidraw's parent chain is the Bluetooth adapter itself.
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", KERNELS=="0005:054C:*", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+
+# USB (wired/dongle) Sony devices.
+KERNEL=="hidraw*", ATTRS{idVendor}=="054c", MODE="0660", GROUP="plugdev", TAG+="uaccess"

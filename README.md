@@ -97,6 +97,16 @@ no head-tracker device found (headset paired and connected?)
 ```
 try with `sudo` \
 I never said i was good enough.
+
+If it still isn't found, check that the headset's HID channel is connected. Many
+Sony headsets connect for audio only, and then no `hidraw` device exists for them
+(`grep -l 054C /sys/class/hidraw/*/device/uevent` prints nothing). Connect the HID
+profile explicitly (replace the MAC with yours):
+
+```bash
+busctl call org.bluez /org/bluez/hci0/dev_AA_BB_CC_DD_EE_FF org.bluez.Device1 \
+  ConnectProfile s 00001124-0000-1000-8000-00805f9b34fb
+```
 ## Connecting to OpenTrack
 
 1. Install OpenTrack (`sudo apt install opentrack`, or grab an AppImage from their [releases page](https://github.com/opentrack/opentrack/releases)).
